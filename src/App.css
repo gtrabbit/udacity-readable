@@ -1,0 +1,8 @@
+.active {
+  color: green;
+  border: solid black 2px;
+}
+
+a:visited{
+  color: blue;
+}
