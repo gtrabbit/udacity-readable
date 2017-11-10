@@ -1,25 +1,20 @@
 import { NavLink } from 'react-router-dom';
-import React, { Component } from 'react';
+import React from 'react';
 
-class Header extends Component{
-
-	render(){
-
-		return (
-				<header>
-					<nav>
-						<NavLink exact to="/"> Home </NavLink>
-						{
-							this.props.cats.map(a=>(
-								<NavLink key={a} exact to={"/cats/"+a}> {a[0].toUpperCase() + a.slice(1)} </NavLink>
-								))
-						}
-					</nav>
-				</header>
-			)
-
-	}
-
+const Header = (props)=>{
+	return (
+		<div>
+		<h1> Words About Stuff </h1>
+		<nav>
+			<NavLink exact to="/"> Home </NavLink>
+				{
+				props.cats.map(a=>(
+					<NavLink key={a} exact to={"/"+a}> {a[0].toUpperCase() + a.slice(1)} </NavLink>
+				))
+				}
+		</nav>		
+		</div>
+	)
 
 }
 

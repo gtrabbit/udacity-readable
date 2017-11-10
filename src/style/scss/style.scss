@@ -1,0 +1,291 @@
+// ----- helpers -----
+
+%coveringBackground {
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+
+
+//------- theme colors -------
+
+$copper: #9E3613;
+$pumpkin: #D17305;
+$brown: #382C1D;
+$moss: #3FAA73;
+$green: #05D12E;
+
+
+// -- site-wide classes / styles ---
+
+body {
+	background-color: darken($brown, 5);
+}
+
+#root {
+	background-color: white;
+}
+
+h2 {
+	margin-bottom: 0;
+}
+
+a {
+	color: $pumpkin;
+}
+
+%button-hover {
+	box-shadow: unset;
+	left: 1px;
+	top: 1px;
+}
+
+button, input[type=submit] {
+	color: white;
+	background-color: $copper;
+	border: solid $pumpkin 1px;
+	box-shadow: 1px 1px 1px black;
+	position: relative;
+	margin: 1%;
+	font-size: 11pt;
+	&:hover{
+		@extend %button-hover;
+	}
+
+	&:disabled {
+		background-color: darken($copper, 15);
+		color: darken(white, 15);
+		@extend %button-hover;
+
+	}
+}
+
+
+textarea {
+	display: block;
+	height: 300px;
+	width: 100%;
+}
+
+article {
+	padding: 1%;
+}
+
+section {
+	min-height: 60vh;
+}
+
+.popularity-score {
+	font-weight: bold;
+}
+
+.link-to-button {
+	@extend button;
+	text-decoration: none;
+	padding: 1px 6px;
+	box-sizing: border-box;
+}
+
+// -------- Header -------------
+
+.active {
+  color: $copper;
+  cursor: default;
+}
+
+.header {
+	@extend %coveringBackground;
+	background-image: url(../imgs/wheat.jpg);
+	border-top: solid $copper 3px;
+	border-bottom: solid $copper 3px;
+	div {
+		display: flex;
+		align-items: center;
+		background-image: linear-gradient(to right, transparentize(white, 0.7), transparentize(black, 0.2));
+
+		h1 {
+			width: 60vw;
+			flex-grow: 1;
+			color: white;
+			margin: 0 1%;
+			text-align: center;
+			text-shadow: 1px 1px 1px $pumpkin;
+		}
+		nav {
+			
+			height: calc(100% - 12px);
+			width: 30vw;
+			padding: 6px;
+			display: flex;
+			justify-content: space-around;
+			align-items: center;
+			flex-wrap: wrap;
+
+			* {
+				margin: 2%;
+			}
+		}	
+
+	}
+
+	
+}
+
+
+//-------- postList --------->>>
+
+.post-list {
+	padding: 2%;
+	min-height: 70vh;
+	ul {
+		padding: 0;
+	}
+}
+
+.post-list-element{
+	list-style: cambodian;
+	display: flex;
+	flex-wrap: wrap;
+	padding: 1%;
+	margin: 1% 0;
+	border: solid $pumpkin 1px;
+	span, p, div {
+		width: 100%;
+	}
+
+}
+
+
+.sort-label {
+	display: block;
+	text-align: right;
+	select {
+		float: right;
+	}
+}
+
+
+//----- post page ---->>>
+
+.post-voting {
+	display: flex;
+	align-items: center;
+
+
+	.vote-buttons {
+		display: flex;
+		width: 20%;
+		justify-content: center;
+		button {
+			width: 30px;
+			margin: 0 5px;
+		}
+	}
+}
+
+
+.post-body {
+	border-bottom: solid silver 1px;
+	padding: 1%;
+}
+
+.by-line {
+	display: block;
+	margin-bottom: 15px;
+}
+
+.post-meta {
+	@extend .comment-meta;
+	border-bottom: solid silver 1px;
+}
+
+// -----comments------->>>
+
+.comments-list {
+	padding: 2%;
+}
+
+.comment-detail {
+	overflow: hidden;
+	margin: 1%;
+	div {
+		display: flex;
+		align-items: center;
+		margin: 15px;
+
+		h3 {
+			margin: 0 15px;
+		}
+
+	}
+}
+
+.comment-meta {
+	padding: 0;
+	margin: 0;
+	font-size: smaller;
+}
+
+.add-comment {
+	background-color: white;
+	display: flex;
+	flex-wrap: wrap-reverse;
+	flex-direction: column;
+	.comment-form {
+		width: 100%;
+		form {
+			label {
+				display: flex;
+				width: 98%;
+				margin: 15px 0;
+				input {
+					flex-grow: 1;
+				}
+			}
+		}
+
+	}
+	.add-comment-button {
+		text-align: right;
+		align-self: right;
+
+	}
+}
+
+.add-comment-prompt { 
+	margin: 5%;
+}
+
+//------ postform ----->>>>
+
+.post-form {
+	padding: 2%;
+	* {
+		display: block;
+		margin: 2%;
+		* {
+			width: 100%;
+		}
+	}
+}
+
+//------ Footer ------>>>>
+
+.footer {
+	@extend .header;
+	nav {
+		*{
+			margin: 2%;
+		}
+		padding: 20px;
+		height: 100%;
+		background-image: linear-gradient(to right, transparentize(white, 0.7), transparentize(black, 0.2));
+	}
+	.about {
+		color: white;
+		a {
+			color: $moss;
+		}
+	}
+}
+
+

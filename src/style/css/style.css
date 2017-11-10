@@ -1,0 +1,184 @@
+.header, .footer {
+  background-size: cover;
+  background-repeat: no-repeat; }
+
+body {
+  background-color: #271f14; }
+
+#root {
+  background-color: white; }
+
+h2 {
+  margin-bottom: 0; }
+
+a {
+  color: #D17305; }
+
+button:hover, .link-to-button:hover, input[type=submit]:hover, button:disabled, .link-to-button:disabled, input[type=submit]:disabled {
+  box-shadow: unset;
+  left: 1px;
+  top: 1px; }
+
+button, .link-to-button, input[type=submit] {
+  color: white;
+  background-color: #9E3613;
+  border: solid #D17305 1px;
+  box-shadow: 1px 1px 1px black;
+  position: relative;
+  margin: 1%;
+  font-size: 11pt; }
+  button:disabled, .link-to-button:disabled, input[type=submit]:disabled {
+    background-color: #5a1f0b;
+    color: #d9d9d9; }
+
+textarea {
+  display: block;
+  height: 300px;
+  width: 100%; }
+
+article {
+  padding: 1%; }
+
+section {
+  min-height: 60vh; }
+
+.popularity-score {
+  font-weight: bold; }
+
+.link-to-button {
+  text-decoration: none;
+  padding: 1px 6px;
+  box-sizing: border-box; }
+
+.active {
+  color: #9E3613;
+  cursor: default; }
+
+.header, .footer {
+  background-image: url(../imgs/wheat.jpg);
+  border-top: solid #9E3613 3px;
+  border-bottom: solid #9E3613 3px; }
+  .header div, .footer div {
+    display: flex;
+    align-items: center;
+    background-image: linear-gradient(to right, rgba(255, 255, 255, 0.3), rgba(0, 0, 0, 0.8)); }
+    .header div h1, .footer div h1 {
+      width: 60vw;
+      flex-grow: 1;
+      color: white;
+      margin: 0 1%;
+      text-align: center;
+      text-shadow: 1px 1px 1px #D17305; }
+    .header div nav, .footer div nav {
+      height: calc(100% - 12px);
+      width: 30vw;
+      padding: 6px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      flex-wrap: wrap; }
+      .header div nav *, .footer div nav * {
+        margin: 2%; }
+
+.post-list {
+  padding: 2%;
+  min-height: 70vh; }
+  .post-list ul {
+    padding: 0; }
+
+.post-list-element {
+  list-style: cambodian;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 1%;
+  margin: 1% 0;
+  border: solid #D17305 1px; }
+  .post-list-element span, .post-list-element p, .post-list-element div {
+    width: 100%; }
+
+.sort-label {
+  display: block;
+  text-align: right; }
+  .sort-label select {
+    float: right; }
+
+.post-voting {
+  display: flex;
+  align-items: center; }
+  .post-voting .vote-buttons {
+    display: flex;
+    width: 20%;
+    justify-content: center; }
+    .post-voting .vote-buttons button, .post-voting .vote-buttons .link-to-button {
+      width: 30px;
+      margin: 0 5px; }
+
+.post-body {
+  border-bottom: solid silver 1px;
+  padding: 1%; }
+
+.by-line {
+  display: block;
+  margin-bottom: 15px; }
+
+.post-meta {
+  border-bottom: solid silver 1px; }
+
+.comments-list {
+  padding: 2%; }
+
+.comment-detail {
+  overflow: hidden;
+  margin: 1%; }
+  .comment-detail div {
+    display: flex;
+    align-items: center;
+    margin: 15px; }
+    .comment-detail div h3 {
+      margin: 0 15px; }
+
+.comment-meta, .post-meta {
+  padding: 0;
+  margin: 0;
+  font-size: smaller; }
+
+.add-comment {
+  background-color: white;
+  display: flex;
+  flex-wrap: wrap-reverse;
+  flex-direction: column; }
+  .add-comment .comment-form {
+    width: 100%; }
+    .add-comment .comment-form form label {
+      display: flex;
+      width: 98%;
+      margin: 15px 0; }
+      .add-comment .comment-form form label input {
+        flex-grow: 1; }
+  .add-comment .add-comment-button {
+    text-align: right;
+    align-self: right; }
+
+.add-comment-prompt {
+  margin: 5%; }
+
+.post-form {
+  padding: 2%; }
+  .post-form * {
+    display: block;
+    margin: 2%; }
+    .post-form * * {
+      width: 100%; }
+
+.footer nav {
+  padding: 20px;
+  height: 100%;
+  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.3), rgba(0, 0, 0, 0.8)); }
+  .footer nav * {
+    margin: 2%; }
+.footer .about {
+  color: white; }
+  .footer .about a {
+    color: #3FAA73; }
+
+/*# sourceMappingURL=style.css.map */

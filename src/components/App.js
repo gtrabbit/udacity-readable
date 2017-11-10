@@ -1,23 +1,23 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import { withRouter } from 'react-router';
 import Header from './header';
 import Footer from './footer';
 import PostList from './postlist';
-import { getInitialPosts } from '../actions';
-import '../App.css';
+import PostPage from './postpage';
+import CommentList from './commentslist';
+import PostForm from './postform'
+import { getInitialPosts, getCategories } from '../actions';
+import '../style/css/style.css';
 
 
 class App extends Component {
 
-  cats = ['react', 'redux', 'udacity'];
 
-
-  componentDidMount(){
-    if (this.props.allPosts.length){
-      return 
-    } else {
+  componentWillMount(){
+    if (!this.props.allPosts.hasOwnProperty('react')){
+      this.props.getCats();
       this.props.getInitialPosts();
     }
   }
@@ -27,84 +27,103 @@ class App extends Component {
     const { allPosts } = this.props
     return (
     	<div>
+      
     	<Route 				//HEADER
     		path="*"
-    		render={(route)=>{
+    		render={()=>{
     			return (
-    				<Header route={route} cats={this.cats}/>
+            <header className="header">
+    				{this.props.categories.length && <Header cats={this.props.categories.map(a=>a.name)}/>}
+            </header>
     				)
     		}}
     		   	/>
-
+      
       <Route 
       	exact path="/"
-      	render={(route)=>{
+      	render={()=>{
 
 	      	return (
-           <div>
-          { allPosts.length && <PostList posts={allPosts} />}
+           <main>
+          { allPosts.hasOwnProperty('react') && <PostList cats={"all"} /> }
 	      
-            </div>
+            </main>
 	      		)
 	      	}}
       />
 
       <Route 
-      	path="/cats/:cat"  // category view
+      	exact path="/:cat"  // category view
       	render={(route)=>{
       		return (
-            <div>
-	      		{allPosts && <PostList posts={allPosts.filter(
-              a=>a.category===route.match.params.cat)} />}
-      			</div>
+            <main>
+	      		{allPosts.hasOwnProperty('react') && <PostList cats={route.match.params.cat} />}
+      			</main>
             )
 
 
       		}}
       />
-
+      <Switch>
       <Route
-      	path="/new/:type"
-      	render={()=>(
-      		<h1> Edit </h1>
+      	exact path="/post/:type"
+      	render={(route)=>(
+          <main>
+      		  <PostForm route={route} />
+          </main>
       		)}
       />
 
       <Route 
-      	path="/posts/:id"
-      	render={()=>(
-      		<h1> Posts </h1>
-      		)}
-      />
+      	exact path="/:cat/:id"
+      	render={(route)=>{
+          return (
+            <main>
+            
+              {allPosts.hasOwnProperty('react') && 
+                <section>
+                  <PostPage 
+                    cat={route.match.params.cat}
+                    postId={route.match.params.id}
+                    route={route} />
+                  <CommentList postId={route.match.params.id} />
+                </section>}
 
+            </main>
+          )
+
+        }
+      		
+      		}
+      />
+      </Switch>
     	<Route       			//FOOTER
     		path="*"
-    		render={(route)=>{
+    		render={()=>{
     			return (
-            <Footer route={route} cats={this.cats} />
+            <footer className="footer">
+              {this.props.categories.length && <Footer cats={this.props.categories.map(a=>a.name)}/>}
+            </footer>
     				)}}
     		   	/>
+      
  			</div>
     );
   }
 }
 
 
-function mapStateToProps({comments, posts}){
-  let allPosts = [];
-  for (let key in posts){
-    posts[key].forEach(a=>{
-      allPosts.push(a);
-    })
-  }
+function mapStateToProps({comments, posts, categories}){
+  let allPosts = posts;
 	return {
-		comments, allPosts
+		comments, allPosts, categories
 	}
 }
 
 function mapDispatchToProps(dispatch){
 	return {
-		getInitialPosts: () => dispatch(getInitialPosts())
+		getInitialPosts: () => dispatch(getInitialPosts()),
+    getCats: () => dispatch(getCategories())
 	}
 }
 
