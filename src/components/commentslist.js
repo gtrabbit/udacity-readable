@@ -7,7 +7,6 @@ import {sortBy} from '../utils/helpers';
 
 
 
-
 class CommentList extends Component {
 
 	componentWillMount(){
@@ -26,8 +25,10 @@ class CommentList extends Component {
 				comments = sortBy(comments, 'voteScore');
 				return (
 					<aside className="comments-list">
-					<AddComment parentId={this.props.postId}/>
+					
 					Comments: ({comments.length})
+					<AddComment parentId={this.props.postId}/>
+					 <hr />
 					{comments.map((a,i)=>(
 						<CommentDetail key={i} comment={a} />
 						))}

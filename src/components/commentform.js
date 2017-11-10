@@ -16,12 +16,12 @@ class CommentForm extends Component {
 			comment.body = body.value;
 			comment.edited = Date.now();
 			this.props.sendEdit(comment)
-			this.props.close()
+			
 		} else {
 			let comment = new Comment(body.value, author.value, this.props.parentId)
 			this.props.sendComment(comment);
 		}
-
+		this.props.close()
 		
 	}
 
@@ -39,7 +39,7 @@ class CommentForm extends Component {
 														: 'your name'} />
 					</label>
 					<label htmlFor="body"> Your Comment: </label>
-					<textarea name="body" placeholder="Your comment goes here..." />
+					<textarea defaultValue={this.props.hasOwnProperty('comment') ? this.props.comment.body : ""} name="body" placeholder="Your comment goes here..." />
 					<input type="submit" name="submit" /> 
 				</form>
 			</div>

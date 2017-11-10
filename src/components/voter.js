@@ -22,10 +22,10 @@ class Voter extends Component {
 
 	render(){
 		return (
-			<div className="vote-buttons">
+			<span className="vote-buttons">
 				<button onClick={this.voteUp} disabled={this.state.voted}> <ThumbsUp /> </button>
 				<button onClick={this.voteDown} disabled={this.state.voted}> <ThumbsDown /> </button>
-			</div>
+			</span>
 			)
 	}
 }

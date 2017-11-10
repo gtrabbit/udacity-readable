@@ -38,8 +38,8 @@ class CommentDetail extends Component {
 	}
 
 	render(){
-		let {author, body, timestamp, voteScore} = this.props.comment
-		let date = new Date(timestamp).toLocaleDateString('en-us', dateOptions)
+		const {author, body, timestamp, voteScore} = this.props.comment
+		const date = new Date(timestamp).toLocaleDateString('en-us', dateOptions)
 		return (
 			<div className="comment-detail" style={voteScore > 0 
 				? {backgroundColor: `rgba(5, 209, 46, ${voteScore/50})`}

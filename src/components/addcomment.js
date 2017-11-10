@@ -10,11 +10,7 @@ class AddComment extends Component {
 	}
 
 	toggleShowForm = ()=>{
-		this.setState(state=>{
-			state.showForm = !state.showForm
-			return state
-		}
-		)
+		this.setState(state=>({showForm: !state.showForm}))
 	}
 
 	render(){
@@ -35,14 +31,6 @@ class AddComment extends Component {
 	}
 }
 
-function mapStateToProps(){
-	return {}
-}
 
-function mapDispatchToProps(){
-	return {}
-}
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps)(AddComment);
+export default connect()(AddComment);

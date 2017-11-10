@@ -1,20 +1,4 @@
-export const ADD_POST = 'ADD_POST';
-export const EDIT_POST = 'EDIT_POST';
-export const REMOVE_POST = 'REMOVE_POST';
-export const VOTE_POST = 'VOTE_POST';
-
-export const ADD_COMMENT = 'ADD_COMMENT';
-export const EDIT_COMMENT = 'EDIT_COMMENT';
-export const REMOVE_COMMENT = 'REMOVE_COMMENT';
-export const VOTE_COMMENT = 'VOTE_COMMENT';
-
-export const SET_INITIAL_POSTS = 'SET_INITIAL_POSTS';
-export const SET_COMMENTS = 'SET_COMMENTS';
-
-export const SET_CATEGORIES = 'SET_CATEGORIES';
-export const GET_CATEGORIES = 'GET_CATEGORIES';
-
-
+import * as C from './actiontypes'
 
 //async action handlers followed by their sync resulting calls
 
@@ -23,7 +7,19 @@ const headers = {headers: {'Authorization': 'sparkle-cat-server2',
 							'Content-Type': 'application/json'}}
 const baseUrl = 'http://localhost:3001/';
 
+//==================================================//
+//***************Category Actions*******************//
+//==================================================//
+
+
 //-----------------
+export function setCategories(cats){
+	return {
+		type: C.SET_CATEGORIES,
+		cats
+	}
+}
+
 
 export function getCategories(){
 	const url = baseUrl + 'categories'
@@ -35,15 +31,23 @@ export function getCategories(){
 	}
 }
 
-export function setCategories(cats){
-	return {
-		type: SET_CATEGORIES,
-		cats
-	}
-}
+
+
+//==================================================//
+//******************Post Actions********************//
+//==================================================//
+
 
 
 //-------------------
+
+export function setInitialPosts(posts){
+	return {
+		type: C.SET_INITIAL_POSTS,
+		posts
+	}
+}
+
 
 export function getInitialPosts(){
 	const url = baseUrl + 'posts'
@@ -55,108 +59,15 @@ export function getInitialPosts(){
     }
 }
 
-export function setInitialPosts(posts){
-	return {
-		type: SET_INITIAL_POSTS,
-		posts
-	}
-}
-
-// ----------------------
-
-export function getComments(id){
-	const url = `${baseUrl}posts/${id}/comments`
-	return (dispatch)=>{
-		return fetch(url, headers).then(res=> res.json()
-		).then(
-			res=> dispatch(setComments(res, id)),
-			err=> console.log("there was an error", err))
-	}
-}
-
-export function setComments(comments, id){
-	return {
-		type: SET_COMMENTS,
-		comments,
-		parentId: id
-	}
-}
-
-// ------------------------
-
-export function addCommentToServer(comment){
-	const url = `${baseUrl}comments`;
-	const options = {...headers, method: 'POST',
-					body: JSON.stringify(comment)}
-	return (dispatch)=>{
-		return fetch(url, options).then(res=> res.json()
-			).then(
-				res=> dispatch(addComment(comment)),
-				err=> console.log("error in actions", err)
-			)
-	}
-
-}
-
-export function addComment(comment){
-	return {
-		type: ADD_COMMENT,
-		parentId: comment.parentId,
-		comment
-	}
-}
-
-// -----------------------
-
-
-export function editCommentOnServer(comment){
-	const url = `${baseUrl}comments/${comment.id}`
-	const options = {...headers, method: 'PUT',
-					body: JSON.stringify(comment)}
-	return (dispatch)=>{
-		return fetch(url, options).then(res=> res.json()
-			).then(
-				res=> dispatch(editComment(comment)),
-				err=> console.log("error in actions", err)
-			)
-	}
-}
-
-export function editComment(comment){
-	return {
-		type: EDIT_COMMENT,
-		parentId: comment.parentId,
-		commentId: comment.id,
-		comment
-	}
-}
-
-// --------------
-
-
-export function removeCommentFromServer(comment){
-	const url = `${baseUrl}comments/${comment.id}`
-	const options = {...headers, method: 'DELETE'}
-
-	return dispatch=>{
-		return fetch(url, options).then(res=> res.json()
-			).then(
-				res=> dispatch(removeComment(comment.parentId, comment.id)),
-				err=> console.log("error deleting", err)
-			)
-	}
-}
-
-export function removeComment(parentId, commentId){
-	return {
-		type: REMOVE_COMMENT,
-		parentId,
-		commentId,
-	}
-}
-
 
 //--------------------
+
+export function addPost(post){
+	return {
+		type: C.ADD_POST,
+		post
+	}
+}
 
 export function addPostToServer(post){
 	const url = `${baseUrl}posts`;
@@ -172,16 +83,15 @@ export function addPostToServer(post){
 	}
 }
 
+//--------------------
 
-export function addPost(post){
+export function editPost(post){
 	return {
-		type: ADD_POST,
-		post
+		type: C.EDIT_POST,
+		post, cat: post.category
 	}
 }
 
-
-//--------------------
 
 export function editPostOnServer(post){
 	const {id, body, title} = post;
@@ -201,16 +111,15 @@ export function editPostOnServer(post){
 }
 
 
-export function editPost(post){
+//-----------------------
+
+export function removePost(id, cat){
 	return {
-		type: EDIT_POST,
-		post, cat: post.category
+		type: C.REMOVE_POST,
+		cat,
+		id
 	}
 }
-
-
-
-//-----------------------
 
 
 export function deletePostFromServer(id, cat){
@@ -225,16 +134,18 @@ export function deletePostFromServer(id, cat){
 	}
 }
 
-export function removePost(id, cat){
+//----------------------
+
+export function votePost(id, vote, category){
+	let amount = vote === 'upVote' ? 1 : -1;
 	return {
-		type: REMOVE_POST,
-		cat,
-		id
+		type: C.VOTE_POST,
+		category,
+		id,
+		vote: amount
 	}
 }
 
-
-//----------------------
 
 export function votePostOnServer(id, vote, category){
 	const url = `${baseUrl}posts/${id}`;
@@ -249,18 +160,117 @@ export function votePostOnServer(id, vote, category){
 	}
 }
 
-export function votePost(id, vote, category){
-	let amount = vote === 'upVote' ? 1 : -1;
+
+//==================================================//
+//****************Comment Actions*******************//
+//==================================================//
+
+
+// ----------------------
+
+export function setComments(comments, id){
 	return {
-		type: VOTE_POST,
-		category,
-		id,
-		vote: amount
+		type: C.SET_COMMENTS,
+		comments,
+		parentId: id
+	}
+}
+
+export function getComments(id){
+	const url = `${baseUrl}posts/${id}/comments`
+	return (dispatch)=>{
+		return fetch(url, headers).then(res=> res.json()
+		).then(
+			res=> dispatch(setComments(res, id)),
+			err=> console.log("there was an error", err))
+	}
+}
+
+// ------------------------
+
+export function addComment(comment){
+	return {
+		type: C.ADD_COMMENT,
+		parentId: comment.parentId,
+		comment
+	}
+}
+
+export function addCommentToServer(comment){
+	const url = `${baseUrl}comments`;
+	const options = {...headers, method: 'POST',
+					body: JSON.stringify(comment)}
+	return (dispatch)=>{
+		return fetch(url, options).then(res=> res.json()
+			).then(
+				res=> dispatch(addComment(comment)),
+				err=> console.log("error in actions", err)
+			)
+	}
+
+}
+
+// -----------------------
+
+export function editComment(comment){
+	return {
+		type: C.EDIT_COMMENT,
+		parentId: comment.parentId,
+		commentId: comment.id,
+		comment
+	}
+}
+
+export function editCommentOnServer(comment){
+	const url = `${baseUrl}comments/${comment.id}`
+	const options = {...headers, method: 'PUT',
+					body: JSON.stringify(comment)}
+	return (dispatch)=>{
+		return fetch(url, options).then(res=> res.json()
+			).then(
+				res=> dispatch(editComment(comment)),
+				err=> console.log("error in actions", err)
+			)
+	}
+}
+
+// --------------
+
+export function removeComment(parentId, commentId){
+	return {
+		type: C.REMOVE_COMMENT,
+		parentId,
+		commentId,
+	}
+}
+
+export function removeCommentFromServer(comment){
+	const url = `${baseUrl}comments/${comment.id}`
+	const options = {...headers, method: 'DELETE'}
+
+	return dispatch=>{
+		return fetch(url, options).then(res=> res.json()
+			).then(
+				res=> dispatch(removeComment(comment.parentId, comment.id)),
+				err=> console.log("error deleting", err)
+			)
 	}
 }
 
 
 //-----------------------
+
+
+export function voteComment(id, vote, parentId){
+	let amount = vote === 'upVote' ? 1 : -1;
+	return {
+		type: C.VOTE_COMMENT,
+		parentId,
+		id,
+		vote: amount
+	}
+}
+
 
 export function voteCommentOnServer(id, vote, parentId){
 	const url = `${baseUrl}comments/${id}`;
@@ -275,13 +285,3 @@ export function voteCommentOnServer(id, vote, parentId){
 	}
 }
 
-
-export function voteComment(id, vote, parentId){
-	let amount = vote === 'upVote' ? 1 : -1;
-	return {
-		type: VOTE_COMMENT,
-		parentId,
-		id,
-		vote: amount
-	}
-}

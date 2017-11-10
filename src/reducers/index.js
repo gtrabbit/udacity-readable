@@ -5,7 +5,7 @@ import {
 	ADD_COMMENT, EDIT_COMMENT, REMOVE_COMMENT, VOTE_COMMENT,
 	SET_INITIAL_POSTS, SET_COMMENTS,
 	SET_CATEGORIES
-} from '../actions';
+} from '../actions/actiontypes';
 
 
 // COMMENTS_SCHEMA = {
@@ -41,7 +41,7 @@ function comments(state={}, action){
 			}
 
 		case EDIT_COMMENT:
-			let Cindex = state[action.parentId].findIndex(a=> a.id === action.commentId);
+			var Cindex = state[action.parentId].findIndex(a=> a.id === action.commentId);
 			return {
 				...state,
 				[action.parentId]:
@@ -52,7 +52,7 @@ function comments(state={}, action){
 			}
 
 		case REMOVE_COMMENT:
-			let index = state[action.parentId].findIndex(a=> a.id === action.commentId);
+			var index = state[action.parentId].findIndex(a=> a.id === action.commentId);
 			return {
 				...state,
 				[action.parentId]: state[action.parentId].slice(0, index).concat(state[action.parentId].slice(index+1))
@@ -60,8 +60,8 @@ function comments(state={}, action){
 
 
 		case VOTE_COMMENT:
-			let vIndex = state[action.parentId].findIndex(a=> a.id === action.id);
-			let commentInMind = state[action.parentId][vIndex];
+			var vIndex = state[action.parentId].findIndex(a=> a.id === action.id);
+			var commentInMind = state[action.parentId][vIndex];
 			commentInMind.voteScore += action.vote;
 			return {
 				...state,

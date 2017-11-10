@@ -4,6 +4,7 @@ import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { arrayify, sortBy } from '../utils/helpers';
 import Voter from './voter';
+import PostDeleter from './postdeleter';
 
 
 
@@ -37,6 +38,14 @@ class PostList extends Component {
 				)
 		}
 		let posts = sortBy(this.props.posts, this.state.sorter.value);
+		if (!posts.length){
+			return (
+				<section className="post-list">
+					<p> There are no posts in this category. Be the first! </p>
+					<Link to={'/post/new'}> New Post </Link>
+				</section>
+				)
+		}
 		return (
 			<section className="post-list">
 			<div>
@@ -57,9 +66,14 @@ class PostList extends Component {
 				? {backgroundColor: `rgba(5, 209, 46, ${a.voteScore/50})`}
 				: {backgroundColor: `rgba(158, 54, 19, ${Math.abs(a.voteScore/50)})`}}>
 					<span><Link to={'/' + a.category + '/' + a.id}> {a.title} </Link></span>
-					<span>in {a.category} by {a.author}</span>
+					<span>in <Link to={'/'+ a.category}> {a.category.slice(0,1).toUpperCase().concat(a.category.slice(1))}</Link> by {a.author}</span>
 					<p> Popularity <span className="popularity-score">({a.voteScore})</span> / Comments ({a.commentCount}) </p>
-					<Voter id={a.id} category={a.category} /></li>
+					<span>
+						<Voter id={a.id} category={a.category} />
+						<PostDeleter postId={a.id} postCategory={a.category} />
+						<Link to={`/post/edit?id=${a.id}`} className="link-to-button" > edit </Link>
+					</span>
+				</li>
 
 				))	
 			}

@@ -4,8 +4,9 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { dateOptions } from '../utils/helpers';
 import Voter from './voter';
-import { deletePostFromServer } from '../actions'
-
+import { deletePostFromServer } from '../actions';
+import CommentList from './commentslist';
+import NotFound from './notfound';
 
 
 class PostPage extends Component {
@@ -26,38 +27,37 @@ class PostPage extends Component {
 	render(){
 		if (this.props.hasOwnProperty('post') && this.props.post && this.props.post.hasOwnProperty('id')){
 			const {id, title, body, author, category, voteScore, timestamp} = this.props.post;
-			let date = new Date(timestamp).toLocaleDateString('en-us', dateOptions)
+			const date = new Date(timestamp).toLocaleDateString('en-us', dateOptions)
 			return (
-				<article>
-				<div>
-				<h2> {title} </h2>
-				<span className="by-line"> by {author} </span>
-				<hr />
-				<div className="post-meta">
-					<span> posted in {category.slice(0,1).toUpperCase().concat(category.slice(1))} </span>
-					<span> on {date} </span>
-				</div>
-				</div>
-				
-				
-				<p className="post-body"> {body} </p>
-				<div className="post-voting">
-					<Link to={`/post/edit?id=${id}`} className="link-to-button" > edit </Link>
-					<button onClick={this.deleter}> delete </button>
+				<section>
+					<article>
+						<div>
+							<h2> {title} </h2>
+							<span className="by-line"> by {author} </span>
+							<hr />
+							<div className="post-meta">
+								<span> posted in {category.slice(0,1).toUpperCase().concat(category.slice(1))} </span>
+								<span> on {date} </span>
+							</div>
+						</div>
+						
+						
+						<p className="post-body"> {body} </p>
+						<div className="post-voting">
+							<Link to={`/post/edit?id=${id}`} className="link-to-button" > edit </Link>
+							<button onClick={this.deleter}> delete </button>
 
-					<Voter id={id} category={category}/>
-					<span className="popularity-score"> ({voteScore}) </span>
-				</div>
-				<hr />
-				</article>
-
+							<Voter id={id} category={category}/>
+							<span className="popularity-score"> ({voteScore}) </span>
+						</div>
+						<hr />
+					</article>
+					<CommentList postId={this.props.route.match.params.id} />
+				</section>
 				)
 			} else {
 				return (
-					<div> We're having a hard time finding the requested post.
-						If you aren't re-directed soon, try browsing by category
-						or returning <Link to='/'> Home </Link>
-					</div>
+					<NotFound />
 					)
 			}
 			

@@ -50,6 +50,12 @@ section {
   padding: 1px 6px;
   box-sizing: border-box; }
 
+.v-align {
+  display: flex;
+  align-items: center; }
+  .v-align p {
+    padding: 2%; }
+
 .active {
   color: #9E3613;
   cursor: default; }
@@ -156,8 +162,7 @@ section {
       .add-comment .comment-form form label input {
         flex-grow: 1; }
   .add-comment .add-comment-button {
-    text-align: right;
-    align-self: right; }
+    width: 30%; }
 
 .add-comment-prompt {
   margin: 5%; }
@@ -169,6 +174,15 @@ section {
     margin: 2%; }
     .post-form * * {
       width: 100%; }
+
+.not-found {
+  flex-wrap: wrap;
+  justify-content: center; }
+  .not-found img {
+    width: 60%;
+    border-radius: 50%;
+    border: solid #9E3613 2px;
+    margin: 1%; }
 
 .footer nav {
   padding: 20px;

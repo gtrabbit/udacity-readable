@@ -6,7 +6,6 @@ import Header from './header';
 import Footer from './footer';
 import PostList from './postlist';
 import PostPage from './postpage';
-import CommentList from './commentslist';
 import PostForm from './postform'
 import { getInitialPosts, getCategories } from '../actions';
 import '../style/css/style.css';
@@ -82,13 +81,12 @@ class App extends Component {
             <main>
             
               {allPosts.hasOwnProperty('react') && 
-                <section>
+                
                   <PostPage 
                     cat={route.match.params.cat}
                     postId={route.match.params.id}
                     route={route} />
-                  <CommentList postId={route.match.params.id} />
-                </section>}
+              }
 
             </main>
           )
