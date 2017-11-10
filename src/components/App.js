@@ -29,7 +29,6 @@ class App extends Component {
     	<div>
       
     	<Route 				//HEADER
-    		path="*"
     		render={()=>{
     			return (
             <header className="header">
@@ -39,32 +38,34 @@ class App extends Component {
     		}}
     		   	/>
       
-      <Route 
-      	exact path="/"
-      	render={()=>{
 
-	      	return (
-           <main>
-          { allPosts.hasOwnProperty('react') && <PostList cats={"all"} /> }
-	      
-            </main>
-	      		)
-	      	}}
-      />
 
-      <Route 
-      	exact path="/:cat"  // category view
-      	render={(route)=>{
-      		return (
+
+      <Switch>
+            <Route 
+        exact path="/:cat"  // category view
+        render={(route)=>{
+          return (
             <main>
-	      		{allPosts.hasOwnProperty('react') && <PostList cats={route.match.params.cat} />}
-      			</main>
+            {allPosts.hasOwnProperty('react') && <PostList cats={route.match.params.cat} />}
+            </main>
             )
 
 
-      		}}
+          }}
       />
-      <Switch>
+        <Route 
+        exact path="/"
+        render={()=>{
+
+          return (
+           <main>
+          { allPosts.hasOwnProperty('react') && <PostList cats={"all"} /> }
+        
+            </main>
+            )
+          }}
+      />
       <Route
       	exact path="/post/:type"
       	render={(route)=>(
@@ -96,10 +97,22 @@ class App extends Component {
       		
       		}
       />
+
+     <Route
+      render = {()=>(
+        <main>
+          <p> We couldn't find anything matching that address.
+          Try browsing via the links above.
+          </p>
+        </main>
+        )
+
+      }
+
+     />
       </Switch>
     	<Route       			//FOOTER
-    		path="*"
-    		render={()=>{
+    			render={()=>{
     			return (
             <footer className="footer">
               {this.props.categories.length && <Footer cats={this.props.categories.map(a=>a.name)}/>}

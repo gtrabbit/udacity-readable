@@ -10,6 +10,13 @@ import Voter from './voter';
 
 class PostList extends Component {
 
+	componentWillMount(){
+		console.log(this.props)
+		if (this.props.redirect){
+			this.props.history.push('/');
+		}
+	}
+
 	sortOptions = [{value: 'voteScore',	display: 'Highest-Voted'},
 					{value: 'timestamp', display: 'Newest'},
 					{value: 'author', display: 'Author'},
@@ -20,15 +27,21 @@ class PostList extends Component {
 	}
 
 	reOrder = (e) =>{
-
 		this.setState({sorter: this.sortOptions[e.target.selectedIndex]})
-		
 	}
 
 	render(){
+		if (this.props.redirect){
+			return (
+				<section> You are being redirected to something that actually exists </section>
+				)
+		}
 		let posts = sortBy(this.props.posts, this.state.sorter.value);
 		return (
 			<section className="post-list">
+			<div>
+				<Link to={'/post/new'}> New Post </Link>
+			</div>
 				<label htmlFor="sortValue" className="sort-label"> Sort by: 
 				<select className="sorter" name='sortValue' onChange={this.reOrder}>
 					{this.sortOptions.map(a=>(
@@ -59,10 +72,17 @@ class PostList extends Component {
 	}
 }
 
-function mapStateToProps({posts}, ownProps){
+function mapStateToProps({posts, categories}, ownProps){
+	let redirect;
+	if (ownProps.cats !== 'all' && !categories.find(a=>a.name===ownProps.cats)){
+		console.log("no match")
+		redirect = true;
+		return {redirect};
+	}
+
 	return ownProps.cats === 'all' 
-		? {posts: sortBy(arrayify(posts), 'voteScore')}
-		: {posts: sortBy(posts[ownProps.cats], 'voteScore')}
+		? {posts: sortBy(arrayify(posts), 'voteScore'), redirect}
+		: {posts: sortBy(posts[ownProps.cats], 'voteScore'), redirect}
 
 }
 

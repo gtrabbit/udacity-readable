@@ -11,8 +11,11 @@ import { deletePostFromServer } from '../actions'
 class PostPage extends Component {
 
 	state={
-		voted: false
+		voted: false,
+		attempts: 0
 	}
+
+
 
 
 	deleter = ()=>{
@@ -51,7 +54,10 @@ class PostPage extends Component {
 				)
 			} else {
 				return (
-					<div> loading... </div>
+					<div> We're having a hard time finding the requested post.
+						If you aren't re-directed soon, try browsing by category
+						or returning <Link to='/'> Home </Link>
+					</div>
 					)
 			}
 			
