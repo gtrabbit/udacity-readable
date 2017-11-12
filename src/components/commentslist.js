@@ -1,25 +1,37 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getComments } from '../actions';
+import { getComments } from '../actions/commentactions';
 import CommentDetail from './commentdetail';
 import AddComment from './addcomment';
 import {sortBy} from '../utils/helpers';
+import { withRouter } from 'react-router';
 
 
 
 class CommentList extends Component {
 
-	componentWillMount(){
-		if (this.props.loadingComments) this.props.getPostComments(this.props.postId)
+	state={
+		noComments: undefined
 	}
 
+	componentWillMount(){
+		if (!this.state.noComments) this.props.getPostComments(this.props.postId)
+	}
+
+	componentWillReceiveProps(nextProps){
+		this.setState({noComments: nextProps.comments.length ? false : true})
+	}
 
 	render(){
-		if (this.props.loadingComments){
+		if (this.state.noComments === true){
 			return (
-				<h3> Loading Comments </h3>
-				)
-		} else {
+					<div className="add-comment-prompt">
+						Be the first to comment on this post!
+						<AddComment parentId={this.props.postId} />
+					</div>
+					)
+
+		} else if (!this.state.noComments) {
 			let {comments} = this.props;
 			if (comments.length){
 				comments = sortBy(comments, 'voteScore');
@@ -37,11 +49,8 @@ class CommentList extends Component {
 				)
 			} else {
 				return (
-					<div className="add-comment-prompt">
-						Be the first to comment on this post!
-						<AddComment parentId={this.props.postId} />
-					</div>
-					)
+				<h3> Loading Comments </h3>
+				)
 			}
 
 		}
@@ -51,13 +60,7 @@ class CommentList extends Component {
 
 
 function mapStateToProps({comments}, ownProps){
-	if (comments.hasOwnProperty(ownProps.postId)){
-		return {comments: comments[ownProps.postId],
-				loadingComments: false}
-	} else {
-		return {loadingComments: true}
-	}
-	
+	return {comments}
 }
 
 function mapDispatchToProps(dispatch){
@@ -66,6 +69,6 @@ function mapDispatchToProps(dispatch){
 	}
 }
 
-export default connect(
+export default withRouter(connect(
 	mapStateToProps,
-	mapDispatchToProps)(CommentList);
+	mapDispatchToProps)(CommentList));

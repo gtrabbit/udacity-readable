@@ -5,7 +5,7 @@ import CommentForm from './commentform';
 import { withRouter } from 'react-router';
 import ThumbsUp from 'react-icons/lib/ti/thumbs-up';
 import ThumbsDown from 'react-icons/lib/ti/thumbs-down';
-import {removeCommentFromServer, voteCommentOnServer} from '../actions';
+import {removeCommentFromServer, voteCommentOnServer} from '../actions/commentactions';
 
 
 class CommentDetail extends Component {
@@ -66,8 +66,8 @@ class CommentDetail extends Component {
 	}
 }
 
-function mapStateToProps(){
-	return {}
+function mapStateToProps({comments}){
+	return {comments}
 }
 
 function mapDispatchToProps(dispatch){
@@ -80,5 +80,4 @@ function mapDispatchToProps(dispatch){
 
 export default withRouter(connect(
 	mapStateToProps,
-	mapDispatchToProps
-	)(CommentDetail));
+	mapDispatchToProps)(CommentDetail));

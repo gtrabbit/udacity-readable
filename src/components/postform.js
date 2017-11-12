@@ -1,19 +1,27 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Post } from '../utils/datatypes';
-import { addPostToServer, editPostOnServer } from '../actions';
+import { addPostToServer, editPostOnServer, getOnePost } from '../actions/postactions';
 
 
 class PostForm extends Component {
 
 
+	componentWillMount(){
+		if (this.props.route.match.params.type === 'edit'){
+			this.props.getPost(this.props.route.match.params.id)
+		} 
+	}
+
+
 	handleSubmit = (e)=>{
+
 		e.preventDefault();
 		const {body, author, title, category} = e.target;
 		let post;
 
-		if (this.props.hasOwnProperty('post')){
-			post = this.props.post;
+		if (this.props.route.match.params.type === 'edit'){
+			post = this.props.posts[0];
 			post.body = body.value;
 			post.title = title.value;
 			this.props.sendEdit(post)
@@ -27,18 +35,14 @@ class PostForm extends Component {
 
 
 	render(){
+		var author, body, category, readOnly, title;
 
-		let author, body, category, readOnly, title;
-
-		if (this.props.hasOwnProperty('post')){
-			category = this.props.post.category;
-			body = this.props.post.body;
-			title = this.props.post.title;
-			author = this.props.post.author;
+		if (this.props.posts.length && this.props.route.match.params.type === 'edit'){
+			var {category, body, title, author} = this.props.posts[0]
 			readOnly = true;
 		} 
 
-		if (!this.props.post && this.props.route.match.params.type === 'edit'){
+		if (!this.props.posts.length && this.props.route.match.params.type === 'edit'){
 			return (
 				<p> loading... </p>
 				)
@@ -83,19 +87,15 @@ class PostForm extends Component {
 	}
 }
 
-function mapStateToProps({posts, categories}, ownProps){
-	for (let key in posts){
-		let post = posts[key].find(a=>(a.id===ownProps.route.location.search.slice(4)))
-		if (post)	return {post, categories};
-		
-	}
-	return {categories}
+function mapStateToProps({posts, categories}){
+	return {categories, posts}
 }
 
 function mapDispatchToProps(dispatch){
 	return {
 		sendPost: (post) => dispatch(addPostToServer(post)),
-		sendEdit: (post) => dispatch(editPostOnServer(post))
+		sendEdit: (post) => dispatch(editPostOnServer(post)),
+		getPost: (id) => dispatch(getOnePost(id))
 	}
 }
 

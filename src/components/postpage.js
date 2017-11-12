@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { dateOptions } from '../utils/helpers';
 import Voter from './voter';
-import { deletePostFromServer } from '../actions';
+import { deletePostFromServer, getOnePost } from '../actions/postactions';
 import CommentList from './commentslist';
 import NotFound from './notfound';
 
@@ -13,20 +13,30 @@ class PostPage extends Component {
 
 	state={
 		voted: false,
-		attempts: 0
 	}
 
+	componentWillMount(){
+		if (this.props.getThePostYourself){
+			this.props.goGetOnePost(this.props.postId)
+		}
 
+	}
 
+	componentWillReceiveProps(nextProps){
+		if (nextProps.hasOwnProperty('posts') 
+			&& nextProps.posts[0].hasOwnProperty('error')){
+			nextProps.history.push(`/${nextProps.cat}`)
+		}
+	}
 
 	deleter = ()=>{
-		this.props.deletePost(this.props.post.id, this.props.post.category)
-		this.props.route.history.push(`/${this.props.post.category}`)
+		this.props.deletePost(this.props.posts[0].id, this.props.posts[0].category)
+		this.props.route.history.push(`/${this.props.posts[0].category}`)
 	}
 
 	render(){
-		if (this.props.hasOwnProperty('post') && this.props.post && this.props.post.hasOwnProperty('id')){
-			const {id, title, body, author, category, voteScore, timestamp} = this.props.post;
+		if (!this.props.getThePostYourself && this.props.posts.length && !this.props.posts[0].hasOwnProperty('error')){
+			const {id, title, body, author, category, voteScore, timestamp} = this.props.posts[0];
 			const date = new Date(timestamp).toLocaleDateString('en-us', dateOptions)
 			return (
 				<section>
@@ -44,7 +54,7 @@ class PostPage extends Component {
 						
 						<p className="post-body"> {body} </p>
 						<div className="post-voting">
-							<Link to={`/post/edit?id=${id}`} className="link-to-button" > edit </Link>
+							<Link to={`/post/edit/${id}`} className="link-to-button" > edit </Link>
 							<button onClick={this.deleter}> delete </button>
 
 							<Voter id={id} category={category}/>
@@ -55,9 +65,13 @@ class PostPage extends Component {
 					<CommentList postId={this.props.route.match.params.id} />
 				</section>
 				)
-			} else {
+			} else if (!this.props.getThePostYourself){
 				return (
 					<NotFound />
+					)
+			} else {
+				return (
+					<section> loading... </section>
 					)
 			}
 			
@@ -65,13 +79,17 @@ class PostPage extends Component {
 
 }
 
-function mapStateToProps({posts}, ownProps){
-	return {post: posts[ownProps.cat].find(a=>a.id===ownProps.postId)}
+
+function mapStateToProps({posts}){
+	return posts.length === 1
+		? {posts}
+		: {getThePostYourself: true}	
 }
 
 function mapDispatchToProps(dispatch){
 	return {
-		deletePost: (id, cat)=>dispatch(deletePostFromServer(id, cat))
+		deletePost: (id, cat)=>dispatch(deletePostFromServer(id, cat)),
+		goGetOnePost: (id)=>dispatch(getOnePost(id))
 	}
 }
 

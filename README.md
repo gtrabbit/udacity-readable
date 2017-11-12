@@ -20,4 +20,5 @@ Enjoy
 + [React-Icons](https://www.npmjs.com/package/react-icons)
 + [React-Router-DOM](https://www.npmjs.com/package/react-router-dom)
 + [Core-js](https://www.npmjs.com/package/core-js)
++ [uuid](https://www.npmjs.com/package/uuid)
 

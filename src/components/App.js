@@ -7,23 +7,20 @@ import Footer from './footer';
 import PostList from './postlist';
 import PostPage from './postpage';
 import PostForm from './postform'
-import { getInitialPosts, getCategories } from '../actions';
+import {  getCategories } from '../actions';
 import '../style/css/style.css';
+import { getInitialPosts } from '../actions/postactions';
 
 
 class App extends Component {
 
 
   componentWillMount(){
-    if (!this.props.allPosts.hasOwnProperty('react')){
       this.props.getCats();
-      this.props.getInitialPosts();
-    }
   }
 
-
   render() {
-    const { allPosts } = this.props
+
     return (
     	<div>
       
@@ -41,32 +38,32 @@ class App extends Component {
 
 
       <Switch>
-            <Route 
-        exact path="/:cat"  // category view
-        render={(route)=>{
-          return (
-            <main>
-            {allPosts.hasOwnProperty('react') && <PostList cats={route.match.params.cat} />}
-            </main>
-            )
+        <Route 
+          exact path="/:cat"  // category view
+          render={(route)=>{
+            return (
+              <main>
+              <PostList cats={route.match.params.cat} />
+              </main>
+              )
 
 
-          }}
-      />
+            }}
+        />
         <Route 
         exact path="/"
         render={()=>{
 
           return (
            <main>
-          { allPosts.hasOwnProperty('react') && <PostList cats={"all"} /> }
+          <PostList cats={"all"} />
         
             </main>
             )
           }}
       />
       <Route
-      	exact path="/post/:type"
+      	exact path="/post/:type/:id"
       	render={(route)=>(
           <main>
       		  <PostForm route={route} />
@@ -79,15 +76,10 @@ class App extends Component {
       	render={(route)=>{
           return (
             <main>
-            
-              {allPosts.hasOwnProperty('react') && 
-                
-                  <PostPage 
+              <PostPage 
                     cat={route.match.params.cat}
                     postId={route.match.params.id}
                     route={route} />
-              }
-
             </main>
           )
 
@@ -124,17 +116,15 @@ class App extends Component {
 }
 
 
-function mapStateToProps({comments, posts, categories}){
-  let allPosts = posts;
-	return {
-		comments, allPosts, categories
-	}
+function mapStateToProps({categories}, ownProps){
+
+	return {categories}
 }
 
 function mapDispatchToProps(dispatch){
 	return {
-		getInitialPosts: () => dispatch(getInitialPosts()),
-    getCats: () => dispatch(getCategories())
+    getCats: () => dispatch(getCategories()),
+    getPosts: (cat) => dispatch(getInitialPosts(cat)) 
 	}
 }
 

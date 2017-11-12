@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { votePostOnServer } from '../actions'
+import { votePostOnServer } from '../actions/postactions'
 import ThumbsUp from 'react-icons/lib/ti/thumbs-up';
 import ThumbsDown from 'react-icons/lib/ti/thumbs-down';
 
