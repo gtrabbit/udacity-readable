@@ -22,4 +22,11 @@ export function sortBy(arr, value){
 	}
 	}
 
+export function isEmptyObject(obj){
+	for (let key in obj){
+		return false;
+	}
+	return true;
+}
+
 export const dateOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit', weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }

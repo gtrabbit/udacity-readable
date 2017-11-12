@@ -1,6 +1,6 @@
 import * as C from './actiontypes'
 import {headers, baseUrl} from './index';
-
+import {isEmptyObject} from '../utils/helpers';
 
 //==================================================//
 //******************Post Actions********************//
@@ -30,10 +30,15 @@ export function noPostFound(){
 //-------------------
 
 export function setInitialPosts(posts){
-	return {
-		type: C.SET_INITIAL_POSTS,
-		posts
-	}
+	return posts.length === 1 && isEmptyObject(posts[0])
+		? {
+			type: C.SET_INITIAL_POSTS,
+			posts: [{error: 'no post found'}]
+		}
+		: {
+			type: C.SET_INITIAL_POSTS,
+			posts
+		}
 }
 
 

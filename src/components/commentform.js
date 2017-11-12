@@ -1,50 +1,43 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import {addCommentToServer, editCommentOnServer} from '../actions/commentactions';
 import {Comment} from '../utils/datatypes';
 
 
-class CommentForm extends Component {
+const CommentForm = props => {
 
-	handleSubmit = (e)=>{
+	const handleSubmit = (e)=>{
 		e.preventDefault();
 		const {body, author} = e.target;
-		
-		
-		if (this.props.hasOwnProperty('comment')){
-			let {comment} = this.props;
+		if (props.hasOwnProperty('comment')){
+			let {comment} = props;
 			comment.body = body.value;
 			comment.edited = Date.now();
-			this.props.sendEdit(comment)
-			
+			props.sendEdit(comment);	
 		} else {
-			let comment = new Comment(body.value, author.value, this.props.parentId)
-			this.props.sendComment(comment);
+			let comment = new Comment(body.value, author.value, props.parentId)
+			props.sendComment(comment);
 		}
-		this.props.close()
-		
+		props.close();		
 	}
 
 
-
-	render(){
 		return (
 			<div className="comment-form">
-				<form onSubmit={this.handleSubmit}>
+				<form onSubmit={handleSubmit}>
 					<label htmlFor="author"> Author: 
 						<input type="text" name="author"
-							disabled={this.props.hasOwnProperty('comment')}
-							placeholder={this.props.hasOwnProperty('comment')
-														? this.props.comment.author
+							disabled={props.hasOwnProperty('comment')}
+							placeholder={props.hasOwnProperty('comment')
+														? props.comment.author
 														: 'your name'} />
 					</label>
 					<label htmlFor="body"> Your Comment: </label>
-					<textarea defaultValue={this.props.hasOwnProperty('comment') ? this.props.comment.body : ""} name="body" placeholder="Your comment goes here..." />
-					<input type="submit" name="submit" /> 
+					<textarea defaultValue={props.hasOwnProperty('comment') ? props.comment.body : ""} name="body" placeholder="Your comment goes here..." />
+					<input type="submit" name="submit" value="submit" /> 
 				</form>
 			</div>
 		)
-	}
 }
 
 function mapStateToProps(){

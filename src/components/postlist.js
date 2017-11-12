@@ -10,7 +10,7 @@ import { getInitialPosts } from '../actions/postactions';
 
 class PostList extends Component {
 
-	componentWillMount(){
+	componentDidMount(){
 		this.props.getInitialPosts(this.props.cats);	
 	}
 

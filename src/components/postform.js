@@ -7,7 +7,7 @@ import { addPostToServer, editPostOnServer, getOnePost } from '../actions/postac
 class PostForm extends Component {
 
 
-	componentWillMount(){
+	componentDidMount(){
 		if (this.props.route.match.params.type === 'edit'){
 			this.props.getPost(this.props.route.match.params.id)
 		} 
@@ -80,7 +80,7 @@ class PostForm extends Component {
 						placeholder="write your post..." /> </label> 
 				
 
-					<input type="submit" name="submit" />
+					<input type="submit" name="submit" value="submit"/>
 				</form>
 				)
 		}

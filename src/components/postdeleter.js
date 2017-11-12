@@ -1,19 +1,17 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { deletePostFromServer } from '../actions/postactions';
 import { connect } from 'react-redux';
 
 
-class PostDeleter extends Component {
+const PostDeleter = props => {
 
-	deleter = ()=>{
-		this.props.deletePost(this.props.postId, this.props.postCategory)
+	const deleter = ()=>{
+		props.deletePost(props.postId, props.postCategory)
 	}
 
-	render(){
 		return (
-			<button onClick={this.deleter}> delete </button>
+			<button onClick={deleter}> delete </button>
 			)
-	}
 }
 
 

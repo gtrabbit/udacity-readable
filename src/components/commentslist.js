@@ -14,7 +14,7 @@ class CommentList extends Component {
 		noComments: undefined
 	}
 
-	componentWillMount(){
+	componentDidMount(){
 		if (!this.state.noComments) this.props.getPostComments(this.props.postId)
 	}
 

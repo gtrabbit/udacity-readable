@@ -15,7 +15,7 @@ class PostPage extends Component {
 		voted: false,
 	}
 
-	componentWillMount(){
+	componentDidMount(){
 		if (this.props.getThePostYourself){
 			this.props.goGetOnePost(this.props.postId)
 		}
@@ -78,6 +78,7 @@ class PostPage extends Component {
 		}
 
 }
+
 
 
 function mapStateToProps({posts}){

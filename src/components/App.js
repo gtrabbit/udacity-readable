@@ -15,7 +15,7 @@ import { getInitialPosts } from '../actions/postactions';
 class App extends Component {
 
 
-  componentWillMount(){
+  componentDidMount(){
       this.props.getCats();
   }
 
