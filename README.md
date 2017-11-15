@@ -1,6 +1,6 @@
 # "Readable" 
 
-This single-page application was build for Udacity's React Nanodegree. The focus of this project was to integrate Redux for state management of a React application with asynchronous data flow via Thunk. The application's front-end mimicks a message-board format, allowing users to make posts within specified categories, comment on those posts, and vote on both comments and posts. CSS is pre-processed with SASS, and Internet Explorer polyfills provided with core-js.
+This single-page application was built for Udacity's React Nanodegree. The focus of this project was to integrate Redux for state management of a React application with asynchronous data flow via Thunk. The application's front-end mimicks a message-board format, allowing users to make posts within specified categories, comment on those posts, and vote on both comments and posts. CSS is pre-processed with SASS, and Internet Explorer polyfills provided with core-js.
 
 ## Getting started
 
